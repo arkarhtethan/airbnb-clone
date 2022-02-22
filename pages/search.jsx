@@ -4,11 +4,10 @@ import Header from '../components/Header'
 import { useRouter } from 'next/router'
 import { format } from 'date-fns'
 import InfoCard from '../components/InfoCard'
+import Map from '../components/Map'
 
 const search = ({ searchResults }) => {
   const router = useRouter()
-
-  console.log(searchResults)
 
   const { location, startDate, endDate, noOfGuests } = router.query
   const formattedStartDate = format(
@@ -20,6 +19,7 @@ const search = ({ searchResults }) => {
     'dd MMMM yyyy'
   )
   const range = `${formattedStartDate} - ${formattedEndDate}`
+
   return (
     <div>
       <Header placeholder={`${location} | ${range} | ${noOfGuests} guests`} />
@@ -40,9 +40,12 @@ const search = ({ searchResults }) => {
           </div>
           <div className="flex flex-col">
             {searchResults.map((result) => (
-              <InfoCard {...result} />
+              <InfoCard {...result} key={result.img} />
             ))}
           </div>
+        </section>
+        <section className=" hidden overflow-hidden outline-none xl:inline-flex xl:min-w-[600px]">
+          <Map searchResults={searchResults} />
         </section>
       </main>
       <Footer />
